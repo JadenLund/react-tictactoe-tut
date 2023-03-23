@@ -13,20 +13,16 @@ export default function Board() {
   const winner = calculateWinner(squares);
   let status;
 
+  winner ? status = `The winner is ${winner}!!` : status = `${xIsNext ? "X" : "O"}'s turn...`;
+
   function handleClick(i) {
-    if (squares[i] || calculateWinner(squares)) {
-      return;
-      //variable = expression1? expression2 : expression3
-    }
-
     const nextSquares = squares.slice();
-    xIsNext ? nextSquares[i] = "X" : nextSquares[i] = "O";
+    if (squares[i] || calculateWinner(squares)) { return; }
 
+    xIsNext ? nextSquares[i] = "X" : nextSquares[i] = "O"; //variable = expression1? expression2 : expression3
     setSquares(nextSquares)
     setXIsNext(!xIsNext)
   }
-
-  winner ? status = `The winner is ${winner}!!` : status = `${xIsNext ? "X" : "O"}'s turn...`;
 
   function calculateWinner(squares) {
     const lines = [
@@ -39,6 +35,7 @@ export default function Board() {
       [0, 4, 8],
       [2, 4, 6]
     ];
+
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
@@ -48,10 +45,6 @@ export default function Board() {
     return null;
   }
 
-
-  //variable = expression1? expression2 : expression3
-
-  //fills all of the squares with the value null
   return (
     <div>
       <div className="status">{status}</div>
